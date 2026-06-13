@@ -1,0 +1,13 @@
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/SmartUsersCustomeMcpApplication.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/config/PersistenceConfig.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/controller/GlobalExceptionHandler.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/controller/HealthController.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/controller/UserController.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/dto/UserRequest.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/dto/UserResponse.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/entity/User.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/entity/UserAuditDocument.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/mcp/UserMcpTools.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/repository/UserAuditRepository.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/repository/UserRepository.java
+/home/harish/Documents/ai-workspace/smart-ai-automations/smart-users-custome-mcp/src/main/java/com/smartautomation/users/service/UserService.java
