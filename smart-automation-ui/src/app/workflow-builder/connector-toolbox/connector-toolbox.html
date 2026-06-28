@@ -1,0 +1,128 @@
+<p>connector-toolbox works!</p>
+<div class="toolbox">
+    <div class="toolbox-header">
+        <span class="toolbox-title">Connectors</span>
+        <span class="connector-count">{{ filteredConnectors.length}}</span>
+    </div>
+
+    <div class="search-wrap">
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput [(ngModel)]="searchQuery" placeholder="Search connector.." aria-label="Search connector by name or category"/>
+        </mat-form-field>
+    </div>
+
+    @if (loading) {
+        <div class="loading-wrap" role="status" aria-label="Loading connectors">
+            <mat-spinner diameter="28" />
+            <span class="loading-text"> Loading connectors...</span>
+        </div>
+    }
+
+    @if (!loading) {
+        <div class="connector-list" role="list">
+            @for (group of groupedConnectors; track trackByCategory($index, group)) {
+                <div class="category-group" role="group" [attr.aria-label]="group.category + ' connectors'">
+                    <div class="category-header">
+                        <span class="category-label">{{ group.category}}</span>
+                        <span class="category-count">{{group.connectors.length }}</span>
+                    </div>
+
+                    @for (connector of group.connectors; track trackByType($index, connector)) {
+                        <div
+                            class="connector-item"
+                            [class.expanded]="isExpanded(connector)"
+                            [class.trigger-only]="isTriggerOnly(connector)"
+                            draggable="true"
+                            (dragstart)="onDragStart($event, connector)"
+                            (click)="toggleExpand(connector, $event)"
+                            (keydown)="onConnectorKeydown($event, connector)"
+                            [matTooltip]="isExpanded(connector) ? '' : connector.name + ' - ' + connector.category"
+                            matTooltipPosition="right"
+                            role="button"
+                            tabindex="0"
+                            [attr.aria-lable]="'Drag' + connector.name + ' connector into canvas. Press enter to view operations.'"
+                            [attr.aria-expanded]="isExpanded(connector)"
+                            >
+                                <div class="connector-main-row">
+                                    <div class="connector-icon-wrap" [class.trigger-only-icon]="isTriggerOnly(connector)">
+                                        <mat-icon>{{connector.icon}}</mat-icon>
+                                    </div>
+
+                                    <div class="connector-info">
+                                        <span class="connector-name"> {{connector.name}}</span>
+                                        <div class="connector-badges">
+                                            @if (hastrigger(connector)) {
+                                                <span class="badge badge-trigger">TRIGGER</span>
+                                            }
+                                            @if (hasAction(connector)) {
+                                                <span class="badge badge-action">ACTION</span>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <mat-icon class="expand-icon" [class.rotated]="isExpanded(connector)">
+                                        expand_more
+                                    </mat-icon>
+                                </div>
+
+
+                                @if (isExpanded(connector)) {
+                                    <div class="operations-pannel" role="region" [attr.aria-label]="connector.name + ' operations'">
+
+                                        @if (hastrigger(connector)) {
+                                            <div class="ops-section">
+                                                <div class="ops-section-header">
+                                                    <mat-icon class="ops-icon trigger-icon">bolt</mat-icon>
+                                                    <span>trigger Operations</span>
+                                                </div>
+                                                @for (op of connector.triggerOperations; track trackByOpId($index, op)) {
+                                                    <div class="op-item">
+                                                        <span class="op-name">{{ op.name}}</span>
+                                                        <span class="op-desc"> {{ op.description}}</span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+
+                                        @if (hastrigger(connector) && hasAction(connector)) {
+                                            <mat-divider />
+                                        }
+
+                                        @if (hasAction(connector)) {
+                                            <div class="op-section">
+                                                <div class="op-section-header">
+                                                    <mat-icon class="ops-icon action-icon">play_arrow</mat-icon>
+                                                    <span>Action Operations</span>
+                                                </div>
+
+                                                @for (op of connector.actionOperations; track trackByOpId($index, op)) {
+                                                    <div class="op-item">
+                                                        <span class="op-name"> {{ op.name}}</span>
+                                                        <span class="op-desc">{{ op.description}}</span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+
+                                        <div class="drag-hint-text">
+                                            <mat-icon>drag_indicator</mat-icon>
+                                            <span>Drag into canvas to add</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                    }
+                </div> 
+            }
+
+            @if (filteredConnectors.length === 0) {
+                <div class="no-results" role="status">
+                    <mat-icon>search_off</mat-icon>
+                    <span>No connector match "{{ searchQuery}}" </span>
+                </div>
+            }
+        </div>
+    }
+
+</div>

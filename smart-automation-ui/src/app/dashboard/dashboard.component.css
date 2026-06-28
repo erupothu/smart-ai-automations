@@ -1,0 +1,19 @@
+.dashboard {padding: 16px;}
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;}
+.loading-container { display: flex; justify-content: center; padding: 48px;}
+.empty-state { text-align: center; padding: 48px; color: #999;}
+.workflow-link { color: #1976d2; text-decoration: none; font-weight: 500;}
+.workflow-link:hover { text-decoration: underline;}
+.status-chip {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.status-completed { background: #e8f5e9; color: #2e7d32;}
+.status-failed { background: #ffebee; color: #c62828;}
+.status-running { background: #e3f2fd; color: #1565c0;}
+.status-timed-out { background: #fff3e0; color: #e65100;}
+.no-runs { background: #f5f5f5; color: #999;}

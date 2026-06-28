@@ -1,0 +1,86 @@
+<div class="dashboard">
+    <div class="header">
+        <h2>Workflows</h2>
+        <button mat-raised-button color="primary" routerLink="/workflows/new">New Workflow</button>
+        <mat-icon>add</mat-icon> New Workflow
+    </div>
+
+@if (loading) {
+    <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+}
+
+<table mat-table [dataSource]="summaries" class="workflow-table" *ngIf="!loading">
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let row">
+            <a [routerLink]="['/workflows', row.workflow.id]" class="workflow-link">{{ row.workflow.name }}</a>
+            </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastRunStatus">
+        <th mat-header-cell *matHeaderCellDef>Last Execution</th>
+        <td mat-cell *matCellDef="let row">
+            @if (row.lastRunStatus) {
+                <span class="status-chip" [ngClass]="getStatusClass(row.lastRunStatus)">
+                    {{ row.lastRunStatus }}
+                </span>
+            } @else {
+                <span class="status-chip no-runs">NEVER RUN</span>
+            }
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nextScheduledRun">
+        <th mat-header-cell *matHeaderCellDef>Next Scheduled Run</th>
+        <td mat-cell *matCellDef="let row">
+            {{ row.nextScheduledRun ? (row.nextScheduledRun | date:'medium') : '-' }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="executionCount">
+        <th mat-header-cell *matHeaderCellDef>Execution</th>
+        <td mat-cell *matCellDef="let row">
+            {{ row.executionCount}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="enabled">
+        <th mat-header-cell *matHeaderCellDef>Enabled</th>
+        <td mat-cell *matCellDef="let row">
+            <mat-slide-toggle [checked]="row.workflow.enabled" (change)="toggleEnabled(row)" 
+            [attr.aria-label]="'Toggle ' + row.workflow.name"></mat-slide-toggle>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+            <button mat-icon-button [routerLink]="['/workflow', row.workflow.id]" matTooltip="Edit workflow" aria-label="Edit workflow">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="triggerWorkflow(row.workflow.id)" matTooltip="run now" aria-label="Run workflow" [disabled]="triggeringId === row.workflow.id">
+                @if (triggeringId === row.workflow.id) {
+                    <mat-spinner diameter="20"></mat-spinner>
+                } @else {
+                    <mat-icon>play_arrow</mat-icon>
+                }
+            </button>
+            <button mat-icon-button [routerLink]="['/workflows', row.workflow.id, 'runs']" matTooltip="View execution" aria-label="view execution history">
+                <mat-icon>history</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteWorkflow(row.workflow.id)" matTooltip="Delete" aria-label="Delete workflow"> 
+                <mat-icon>delete</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+    
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+@if (!loading && summaries.length === 0) {
+    <div class="empty-state">No workflows yet. create one to get started.</div>
+}
+</div>
